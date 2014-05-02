@@ -1,0 +1,8 @@
+.*.swp
+*.pyc
+*.pyo
+.*.swo
+reconfig.egg-info/*
+build/*
+docs/build/*
+dist/*
