@@ -45,8 +45,15 @@ class Config(object):
     def watch(self, name, handler=None):
         if handler is None:
             # support @conf.watch(name) decorator usage
-            return lambda h: watch(name, h)
+            return lambda h: self.watch(name, h)
         self._watchers.setdefault(name, []).append(handler)
+
+    def unwatch(self, name, handler):
+        for i, watch in enumerate(self._watchers.get(name, [])):
+            if watch is handler:
+                self._watchers[name].pop(i)
+                return True
+        return False
 
     def _sighandler(self, signum, frame):
         self.load()
