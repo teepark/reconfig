@@ -1,8 +1,11 @@
 # vim: fileencoding=utf8:et:sw=4:ts=8:sts=4
 
 import signal
-
 import yaml
+try:
+    from yaml import CSafeLoader as SafeLoader
+except ImportError:
+    from yaml import SafeLoader
 
 ADDED = 1
 MODIFIED = 2
@@ -20,7 +23,7 @@ class Config(object):
     def load(self):
         with open(self._filepath, 'r') as fp:
             raw = fp.read()
-        newconfig = yaml.load(raw, Loader=yaml.CSafeLoader)
+        newconfig = yaml.load(raw, Loader=SafeLoader)
         oldconfig = self._data.copy()
 
         for name, value in newconfig.iteritems():
